@@ -1,0 +1,253 @@
+\documentclass[aspectratio=169, xcolor=dvipsnames]{beamer}
+
+\definecolor{mygray}{gray}{0.95}
+\setbeamercolor{background canvas}{bg=}%transparent canvas
+%\usetheme{Madrid}
+\usetheme{Boadilla}
+\setbeamertemplate{navigation symbols}{}
+%\usecolortheme{seahorse} %seahorse seagull
+\usecolortheme[named=Turquoise]{structure}
+%\usecolortheme[named=Mahogany]{structure}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\definecolor{egyptianblue}{rgb}{0.06, 0.2, 0.65}
+\usepackage{xcolor}
+
+\setbeamercovered{transparent}
+\usepackage{tikz}
+
+\usepackage{natbib}
+
+\usepackage{xcolor}
+
+
+
+%\usepackage{animate}
+
+%\setbeamercovered{invisible}
+
+\begin{document}
+
+
+
+
+\title[A Self-supervised Approach for Cloud Image Analysis]{\textcolor{darkgray}{\tiny{22$^\mathrm{nd}$ Conference on Artificial Intelligence for Environmental Science}}\\
+\Large{\textbf{A Self-supervised Approach for Cloud Image Analysis}}}  
+\author[NSF SAGE]{\textcolor{olive}{\scriptsize{Bhupendra A. Raut, Dario Dematties, Robert C. Jackson, Seongha Park, Sean Shahkarami, Yongho Kim,\\ Rajesh Sankaran, Pete Beckman, Scott Collis, and Nicola Ferrier}}}
+\institute[Northwestern-Argonne Institute]{\textcolor{WildStrawberry}{\tiny{Northwestern-Argonne Institute of Science and Engineering, 
+Northwestern University, Evanston, IL\\
+Argonne National Laboratory, Lemont, IL}}}
+
+
+\date[103rd AMS-Denver | 11 January 2023]{\textcolor{darkgray}{\scriptsize{11 January 2023}}}
+
+%{
+%\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight, page=1]{./bg1.jpg}}%
+\frame[plain]{\includegraphics[height=1.5cm]{sage.jpg}
+\hfill\includegraphics[height=1.5cm]{ams.png}\titlepage
+\centering
+\includegraphics[height=0.8cm]{northwestern_logo}\hfill
+\includegraphics[height=1.2cm]{nsf.png}\hfill
+\includegraphics[height=1cm]{Argonnelablogo.PNG}} 
+%}
+
+%1. add NAISE and Argonne affiliation.
+%2. add AMS and AI conference names on the front page.
+%3. add final slides with SAGE logo.
+
+
+
+\section{Introduction}
+\frame{\frametitle{Complexity of Cloud Structures at Different Scales}
+\includegraphics[width=0.4\textwidth, height=0.49\textwidth]{fig/sicily_tmo_2022341_lrg.jpg}
+\includegraphics[width=0.5\textwidth]{fig/fig-crop.pdf}
+}
+
+\frame{\frametitle{Practical difficulties in supervised learning}
+\begin{itemize}
+\item Supervised learning requires labeled datasets.
+\item Labeling is expensive and tedious, especially for the segmentation of cloud images.
+\item More advanced models are more data-hungry. Perceptrons $<$ CNN $<$ Transformers 
+\end{itemize}
+
+\textbf{Solution:} Generally, pre-trained models (ImageNET) are fine-tuned with a smaller domain-specific dataset.
+
+\begin{exampleblock}{Better Solution}
+Models are self-trained without labels and later fine-tune with a small labeled dataset.
+\end{exampleblock}
+
+}
+
+
+\frame{\frametitle{Joint embedding architecture for self-supervised learning}
+\begin{columns}
+
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\textwidth, height=\textheight, trim={0cm 0 60cm 0},clip]{fig/Model_Architecture.png}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+Distillation with no labels (DINO) \citep{caron2020unsupervised, caron2021emerging}\vskip 0.2in
+How it is intended to use?
+\begin{enumerate}
+\item Train with raw data first, then fine-tune it with labeled data as needed.
+\item Any NN can be embedded with this architecture. Transformers, CNN, Encoder-Decoders.
+\item We can ask to ignore certain features. In this case `color order' and `values'.
+\end{enumerate}
+This is great news for training models at the Edge (SAGE project, \citet{beckman2016waggle}) and also for satellite meteorology.
+\end{column}
+
+\end{columns}
+}
+
+
+\frame{\frametitle{Self-supervised learning for cloud segmentation and classification}
+\includegraphics[width=\textwidth, height=0.8\textheight]{fig/Model_Architecture.png}
+}
+
+
+\frame{\frametitle{Self-supervised learning for classification (PCA Zones)}
+\begin{columns}
+\begin{column}{0.7\textwidth}
+\includegraphics[width=0.9\textwidth, height=0.8\textheight]{fig/Zones.png}
+\end{column}
+
+\end{columns}
+}
+
+
+
+
+
+\frame{\frametitle{Self-supervised learning for classification (SOM)}
+
+\begin{columns}
+
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\textwidth, height=0.9\textheight]{fig/SOM_5_4_N.png}
+\end{column}
+
+
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item The clusters are characterized by different cloud types, cloud coverage and have different diurnal cycles. 
+\item More results are presented in  \citet{dario2023cloudino}, `Let’s unleash the network judgement: A self-supervised approach for cloud image analysis.' Artificial Intelligence for the Earth Systems, In review.
+\end{itemize}
+\end{column}
+
+\end{columns}
+}
+
+
+
+
+
+\frame{\frametitle{Self-supervised learning for classification (SOM)}
+
+\begin{columns}
+
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\textwidth, height=0.9\textheight]{fig/SOM_5_4_N.png}
+\end{column}
+
+
+\begin{column}{0.5\textwidth}
+\vskip0.2in
+\tiny{Clouds tend to form height-wise clusters \citep{dario2023cloudino}.}
+\includegraphics[width=\textwidth, height=0.8\textheight]{fig/cbhHist_firstCBH_10min.pdf}\\
+\end{column}
+
+\end{columns}
+}
+
+
+
+
+
+
+
+
+\frame{\frametitle{Attentional maps for segmentation without labels}
+\begin{columns}
+
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\textwidth, height=0.6\textheight]{fig/Segmentation.png}
+
+\end{column}
+
+\begin{column}{0.5\textwidth}
+
+\begin{itemize}
+\item Relative values of attention are normalized to get the cloud/no cloud segmentation.
+\item Attention values for clouds tend to match transparency of the clouds.
+\item Caution: Interpreting the attention values as transparency is complicated. 
+\end{itemize}
+
+\includegraphics[width=\textwidth, height=0.45\textheight]{fig/Segmentation_Perf_Stats_per_Cluster.png}
+\end{column}
+
+\end{columns}
+}
+
+
+
+\frame{\frametitle{Attentional maps for height-wise classification}
+\begin{columns}
+
+\begin{column}{0.6\textwidth}
+\includegraphics[width=0.8\textwidth, height=0.8\textwidth]{qr-code.pdf}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+- Scan the QR-code to see an animation of different heads paying attention to the clouds at different levels.
+
+- \href{https://youtube.com/shorts/LOmXbf--U20?feature=share}{Click for YouTube Short}:$<1$min, no sound.
+\end{column}
+
+\end{columns}
+}
+
+
+
+
+
+
+
+
+\section{Applications and Future Development}
+\frame{\frametitle{Applications and Future Development}
+The proposed self-supervised learning method using joint embedding architecture and Vision Transformers shows promising results in cloud classification and characterization, with potential applications to large datasets of cloud images, including satellite images.
+
+Future Development:\\
+\begin{itemize}
+\item Use of the model on satellite images, including multichannel images for more complex feature extraction.
+\item To provide a pre-train model with millions of satellite images to classify cloudiness across the globe.
+\item Flexibility in using different model architectures (e.g. Convolutional Neural Networks, Encoder-Decoder)
+\end{itemize}
+}
+
+
+\frame{\frametitle{References}
+\tiny
+\bibliographystyle{ametsoc2014}
+\bibliography{/Users/bhupendra/myPapers/bibtex_library/Convection.bib}
+}
+
+{\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=0.95\paperheight]{sage-sponsors.pdf}}%
+\frame{\frametitle{}
+\centering \includegraphics[height=1.5cm]{ams.png}
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
