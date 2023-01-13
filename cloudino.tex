@@ -68,7 +68,7 @@ Argonne National Laboratory, Lemont, IL}}}
 \begin{itemize}
 \item Supervised learning requires labeled datasets.
 \item Labeling is expensive and tedious, especially for the segmentation of cloud images.
-\item More advanced models are more data-hungry. Perceptrons $<$ CNN $<$ Transformers 
+\item More advanced models are more data-hungry. Perceptrons $<$ CNNs $<$ Transformers 
 \end{itemize}
 
 \textbf{Solution:} Generally, pre-trained models (ImageNET) are fine-tuned with a smaller domain-specific dataset.
@@ -107,10 +107,19 @@ This is great news for training models at the Edge (SAGE project, \citet{beckman
 }
 
 
-\frame{\frametitle{Self-supervised learning for classification (PCA Zones)}
+\frame{\frametitle{Self-supervised learning for classification (PCA1 Vs PCA2)}
 \begin{columns}
-\begin{column}{0.7\textwidth}
+\begin{column}{0.6\textwidth}
 \includegraphics[width=0.9\textwidth, height=0.8\textheight]{fig/Zones.png}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}
+\item The clear sky and cloudy images have occupied two large regions.
+\item The overcast sky images with low and mid-level clouds are also separated into two regions.
+\item Partly cloudy images tend to have multiple regions depending on their structure.
+\end{itemize}
+
 \end{column}
 
 \end{columns}
@@ -131,7 +140,7 @@ This is great news for training models at the Edge (SAGE project, \citet{beckman
 
 \begin{column}{0.5\textwidth}
 \begin{itemize}
-\item The clusters are characterized by different cloud types, cloud coverage and have different diurnal cycles. 
+\item The clusters are characterized by different cloud types, and cloud coverage and have different diurnal peaks. 
 \item More results are presented in  \citet{dario2023cloudino}, `Let’s unleash the network judgement: A self-supervised approach for cloud image analysis.' Artificial Intelligence for the Earth Systems, In review.
 \end{itemize}
 \end{column}
@@ -180,7 +189,7 @@ This is great news for training models at the Edge (SAGE project, \citet{beckman
 
 \begin{itemize}
 \item Relative values of attention are normalized to get the cloud/no cloud segmentation.
-\item Attention values for clouds tend to match transparency of the clouds.
+\item Attention values for clouds tend to match the transparency of the clouds.
 \item Caution: Interpreting the attention values as transparency is complicated. 
 \end{itemize}
 
@@ -192,17 +201,23 @@ This is great news for training models at the Edge (SAGE project, \citet{beckman
 
 
 
-\frame{\frametitle{Attentional maps for height-wise classification}
+\frame{\frametitle{Attentional maps differentiating clouds at different heights.}
 \begin{columns}
 
-\begin{column}{0.6\textwidth}
-\includegraphics[width=0.8\textwidth, height=0.8\textwidth]{qr-code.pdf}
+\begin{column}{0.35\textwidth}
+\includegraphics[width=\textwidth, height=\textwidth]{qr-code.pdf}\\
+\href{https://youtube.com/shorts/LOmXbf--U20?feature=share}{Click for YouTube Short}:$<1$min animation, no sound.
 \end{column}
 
-\begin{column}{0.4\textwidth}
-- Scan the QR-code to see an animation of different heads paying attention to the clouds at different levels.
+\begin{column}{0.3\textwidth}
+\begin{itemize}
+\item Scan the QR-code to see an animation of different heads paying attention to the clouds at different levels.
+\item During multilayer scenario, lower and upper level clouds are seen in left and right bottom heads, respectively. $\Longrightarrow$
+\end{itemize}
+\end{column}
 
-- \href{https://youtube.com/shorts/LOmXbf--U20?feature=share}{Click for YouTube Short}:$<1$min, no sound.
+\begin{column}{0.35\textwidth}
+\includegraphics[width=\textwidth, height=1.2\textwidth]{fig/heads.jpeg}\\
 \end{column}
 
 \end{columns}
@@ -217,7 +232,15 @@ This is great news for training models at the Edge (SAGE project, \citet{beckman
 
 \section{Applications and Future Development}
 \frame{\frametitle{Applications and Future Development}
-The proposed self-supervised learning method using joint embedding architecture and Vision Transformers shows promising results in cloud classification and characterization, with potential applications to large datasets of cloud images, including satellite images.
+\begin{columns}
+
+\begin{column}{0.4\textwidth}
+\includegraphics[width=0.8\textwidth, height=\textwidth]{fig/sat.png}
+\end{column}
+
+\begin{column}{0.6\textwidth}
+The joint embedding architecture and Vision Transformers show promising results in cloud classification and characterization, with potential applications for large datasets of satellite images.
+
 
 Future Development:\\
 \begin{itemize}
@@ -225,6 +248,9 @@ Future Development:\\
 \item To provide a pre-train model with millions of satellite images to classify cloudiness across the globe.
 \item Flexibility in using different model architectures (e.g. Convolutional Neural Networks, Encoder-Decoder)
 \end{itemize}
+\end{column}
+
+\end{columns}
 }
 
 
